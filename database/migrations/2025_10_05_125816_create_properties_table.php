@@ -33,7 +33,7 @@ return new class extends Migration
             //Property Details 
             $table->integer('bedrooms')->nullable();
             $table->integer('bathrooms')->nullable();
-            $table->boolean('hall')->default(false);
+            $table->integer('hall')->nullable();
             $table->integer('other_rooms_count')->nullable();
             $table->integer('total_area')->nullable(); // in sq feet
             $table->integer('built_year')->nullable();
@@ -45,7 +45,7 @@ return new class extends Migration
             $table->json('images')->nullable();  
             //SEO
             $table->string('meta_title')->nullable();
-            $table->string('meta_description')->nullable();
+            $table->text('meta_description')->nullable();
             // Visibility
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_active')->default(true);

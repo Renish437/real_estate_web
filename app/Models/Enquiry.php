@@ -9,4 +9,18 @@ class Enquiry extends Model
 {
     /** @use HasFactory<\Database\Factories\EnquiryFactory> */
     use HasFactory;
+    
+
+    protected $fillable=[
+    'property_id',
+    'name',
+    'email',
+    'phone',
+    'message',
+    'ip_address',
+    'user_agent'
+    ];
+    public function property(){
+        return $this->belongsTo(Property::class);
+    }
 }
