@@ -13,7 +13,57 @@ return new class extends Migration
     {
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('slug')->unique();
+            $table->longText('description');
+            $table->enum('type',['apartment','house','condo','land','townhouse','villa','commercial']);
+            $table->enum('listing_type',['sale','rent'])->default('sale');
+            $table->enum('status',['available','sold','pending','draft','rented'])->default('available');
+           //Pricing
+            $table->decimal('price',12,2);
+            $table->decimal('price_per_sqft',8,2)->nullable();
+           //Location
+            $table->string('address');
+            $table->string('state');
+            $table->string('city');
+            $table->string('country')->default('Nepal');
+            $table->string('postal_code')->nullable();
+            $table->decimal('latitude',10,8)->nullable();
+            $table->decimal('longitude',11,8)->nullable();
+            //Property Details 
+            $table->integer('bedrooms')->nullable();
+            $table->integer('bathrooms')->nullable();
+            $table->boolean('hall')->default(false);
+            $table->integer('other_rooms_count')->nullable();
+            $table->integer('total_area')->nullable(); // in sq feet
+            $table->integer('built_year')->nullable();
+            $table->boolean('furnished')->default(false);
+            $table->boolean('parking')->default(false);
+            $table->integer('parking_spaces')->nullable();
+            //JSONs
+            $table->json('features')->nullable();  // pool, graden ,security etc
+            $table->json('images')->nullable();  
+            //SEO
+            $table->string('meta_title')->nullable();
+            $table->string('meta_description')->nullable();
+            // Visibility
+            $table->boolean('is_featured')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->timestamp('featured_until')->nullable();
+            //Contact Information
+            $table->string('contact_name')->nullable();
+            $table->string('contact_phone')->nullable();
+            $table->string('contact_email')->nullable();
+
+
             $table->timestamps();
+
+            //Indexes
+            $table->index(['type','listing_type','status']);
+            $table->index(['city','state']);
+            $table->index(['price','listing_type']);
+            $table->index('is_featured');
+
         });
     }
 
