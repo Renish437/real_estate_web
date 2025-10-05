@@ -17,6 +17,7 @@ class EnquiriesTable
             ->columns([
                 TextColumn::make('property.title')
                    ->searchable()
+                   
                     ->sortable(),
                 TextColumn::make('name')
                     ->searchable(),
