@@ -28,13 +28,14 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->registration()
-            ->sidebarWidth("18rem")
+            ->sidebarWidth("17rem")
             ->sidebarCollapsibleOnDesktop()
             ->login()
             ->colors([
                 'primary' => Color::Violet,
 
             ])
+            ->topbar(false)
             ->resourceCreatePageRedirect('index')
             ->resourceEditPageRedirect('index')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')

@@ -181,8 +181,16 @@ class PropertyForm
                     ->columns(1)
                     ->schema([
                         TagsInput::make('features')
-                            ->placeholder('Add Tags')
-                            ->helperText('Add features like graden, pool,gym etc.'),
+    ->placeholder('Add Tags')
+    ->helperText('Add features like garden, pool, gym, etc.')
+    ->label('Property Features')
+    ->separator(',') // optional
+    ->reorderable() // optional
+    ->suggestions([
+        'Swimming Pool', 'Garden', 'Security', 'Gym', 'Parking',
+        'Balcony', 'Rooftop', 'Fireplace', 'Backup Generator', 'Solar Power'
+    ])
+   ,
 
                         FileUpload::make('images')
                             ->disk('public')
