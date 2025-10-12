@@ -2,6 +2,9 @@
 
 namespace App\Models;
 
+use App\Enums\ListingType;
+use App\Enums\PropertyStatus;
+use App\Enums\PropertyType;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,7 +53,7 @@ class Property extends Model
 ];
 protected $casts = [
     'features' => 'array',
-    'images' => 'array',
+     'images' => 'array',
     'furnished' => 'boolean',
     'hall' => 'boolean',
     'parking' => 'boolean',
@@ -60,7 +63,10 @@ protected $casts = [
     'price'=>'decimal:2',
     'price_per_sqft'=>'decimal:2',
     'latitude'=>'decimal:8',
-    'longitude'=>'decimal:8' 
+    'longitude'=>'decimal:8' ,
+    'type'=>PropertyType::class,
+    'status'=>PropertyStatus::class,
+    'listing_type'=>ListingType::class
 ];
 
 public function enquires(){
@@ -97,33 +103,46 @@ public function inCity(Builder $query,string $city){
 public function priceBetween(Builder $query,$min,$max){
     return $query->whereBetween('price',[$min,$max]);
 }
+
 #[Scope]
-public function byType(Builder $query,string $type){
-    return $query->whereBetween('type',$type);
+public function byType(Builder $query, string $type)
+{
+    return $query->where('type', $type);
 }
 #[Scope]
 public function withBedrooms(Builder $query,int $bedrooms){
-    return $query->whereBetween('bedrooms','>=',$bedrooms);
+    return $query->where('bedrooms',$bedrooms);
 }
 
 
 // Accessor
 public function getFormattedPriceAttribute():string{
-    return 'NPR'.number_format($this->price,0);
+    return 'NPR '.number_format($this->price,0);
 }
 public function getFullAddressAttribute():string{
     return "$this->address, $this->city, $this->state, $this->country";
 }
 
-public function getMainImageAttribute(): ?string{
-    $images= $this->images;
-    return $images && count($images)>0?$images[0]:null;
-}
-public function getImageUrlAttribute()
-{
-    $mainImage = $this->main_image;
-    return $mainImage ? Storage::url($mainImage) : null;
-}
+ public function getMainImageAttribute(): ?string
+    {
+        // Ensure images is an array
+        $images = $this->images ?? [];
+
+        return !empty($images) ? $images[0] : null;
+    }
+
+    /**
+     * Get the full URL for the main image
+     */
+    public function getImageUrlAttribute(): string
+    {
+        $mainImage = $this->main_image;
+
+        // Return full URL if exists, otherwise fallback placeholder
+        return $mainImage 
+            ? Storage::url(asset($mainImage)) 
+            : 'https://placehold.co/600x400';
+    }
 public function getStatusColorAttribute():string{
     return match($this->status){
         'available'=>'success',
@@ -225,6 +244,7 @@ public static function getStatuses(): array
         'rented'    => 'Rented',
     ];
 }
+
 
 
 public function getDescription(): string

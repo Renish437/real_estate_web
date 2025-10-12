@@ -2,6 +2,9 @@
 
 namespace App\Filament\Resources\Properties\Schemas;
 
+use App\Enums\ListingType;
+use App\Enums\PropertyStatus;
+use App\Enums\PropertyType;
 use App\Models\Property;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\FileUpload;
@@ -38,18 +41,18 @@ class PropertyForm
                             ->dehydrated(),
 
                         Select::make('type')
-                            ->options(Property::getPropertyTypes())
+                            ->options(PropertyType::class)
                             ->required()
                             ->searchable()
                             ->preload(),
                         Select::make('listing_type')
-                            ->options(Property::getListingTypes())
+                            ->options(ListingType::class)
                             ->default('sale')
                             ->required()
                             ->searchable()
                             ->preload(),
                         Select::make('status')
-                            ->options(Property::getStatuses())
+                            ->options(PropertyStatus::class)
                             ->default('available')
                             ->required()
                             ->searchable()
