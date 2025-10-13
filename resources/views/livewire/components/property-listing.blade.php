@@ -15,7 +15,7 @@
             Discover the best real estate opportunities in Nepal. Find homes, land, and investment properties that fit your lifestyle.
         </p>
         <div class="mt-8 flex justify-center space-x-4">
-            <a href="{{ route('properties.index') }}"
+            <a wire:navigate href="{{ route('properties.index') }}"
                 class="px-6 py-3 bg-white text-violet-600 font-semibold rounded-lg shadow-md hover:bg-violet-50 transition transform hover:-translate-y-1">
                 Explore Properties
             </a>
@@ -224,11 +224,15 @@
         @endif
 
         {{-- Listing Type Badge --}}
-        <div class="absolute top-3 right-3 z-10">
-            <span class="bg-{{ $property->listing_type->value === 'sale' ? 'emerald' : 'violet' }}-500 text-white px-3 py-1 text-xs font-semibold rounded-full uppercase">
-                {{ ucfirst($property->listing_type->value) }}
-            </span>
-        </div>
+     <div class="absolute top-3 right-3 z-10">
+    <span class="
+        text-white px-3 py-1 text-xs font-semibold rounded-full uppercase
+        {{ $property->listing_type->value === 'sale' ? 'bg-emerald-500' : 'bg-violet-500' }}
+    ">
+        {{ ucfirst($property->listing_type->value) }}
+    </span>
+</div>
+
 
         {{-- Featured Badge --}}
         @if($property->isFeatured())
@@ -343,12 +347,15 @@
 
                             <div class="md:w-2/3 p-4 relative">
 
-                                <div class="absolute top-3 right-3">
-                                    <span
-                                        class="bg-{{ $property->listing_type->value === 'sale' ? 'emerald' : 'violet' }}-500 text-white px-3 py-1 text-xs font-semibold rounded-full uppercase">
-                                        {{ $property->listing_type->value }}
-                                    </span>
-                                </div>
+<div class="absolute top-3 right-3 z-10">
+    <span class="
+        text-white px-3 py-1 text-xs font-semibold rounded-full uppercase
+        {{ $property->listing_type->value === 'sale' ? 'bg-emerald-500' : 'bg-violet-500' }}
+    ">
+        {{ ucfirst($property->listing_type->value) }}
+    </span>
+</div>
+
 
 
                                 <p class="text-gray-600 dark:text-gray-400 mb-2">
