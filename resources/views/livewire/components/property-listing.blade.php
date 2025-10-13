@@ -1,14 +1,32 @@
 <div class="min-h-screen bg-gray-50 dark:bg-neutral-900">
     {{-- Header Section --}}
-    <div class="bg-white dark:bg-gray-800 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="text-center">
-                <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Find Your Dream Property</h1>
-                <p class="mt-2 text-lg text-gray-600 dark:text-gray-300">Discover the best real estate opportunities in
-                    Nepal</p>
-            </div>
+  <div class="relative bg-gradient-to-r from-violet-600 via-indigo-600 to-purple-600 dark:from-gray-900 dark:to-gray-800">
+    <div class="absolute inset-0 overflow-hidden">
+        <svg class="absolute top-0 left-1/2 transform -translate-x-1/2 opacity-10 w-[1200px] h-[600px]" fill="none" viewBox="0 0 1200 600">
+            <circle cx="600" cy="300" r="300" fill="white" class="animate-pulse" />
+        </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10 text-center">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white dark:text-gray-100 drop-shadow-lg">
+            Find Your Dream Property
+        </h1>
+        <p class="mt-4 text-lg sm:text-xl text-white/90 dark:text-gray-300/90 max-w-xl mx-auto">
+            Discover the best real estate opportunities in Nepal. Find homes, land, and investment properties that fit your lifestyle.
+        </p>
+        <div class="mt-8 flex justify-center space-x-4">
+            <a href="{{ route('properties.index') }}"
+                class="px-6 py-3 bg-white text-violet-600 font-semibold rounded-lg shadow-md hover:bg-violet-50 transition transform hover:-translate-y-1">
+                Explore Properties
+            </a>
+            <a href="#"
+                class="px-6 py-3 border border-white text-white font-semibold rounded-lg hover:bg-white hover:text-violet-600 transition transform hover:-translate-y-1">
+                Contact Us
+            </a>
         </div>
     </div>
+</div>
+
 
     {{-- Main Content --}}
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -186,54 +204,48 @@
             <div
                 class="{{ $viewMode === 'grid' ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-6' }}">
                 @foreach ($properties as $property)
-                <?php
-$images = is_string($property->images)
-    ? json_decode($property->images, true)
-    : $property->images;
-$mainImage = $images[0] ?? null;
-?>
+                    <?php
+                    $images = is_string($property->images) ? json_decode($property->images, true) : $property->images;
+                    $mainImage = $images[0] ?? null;
+                    ?>
                     @if ($viewMode === 'grid')
                         {{-- Grid View --}}
-                        <div
-                            class="bg-white cursor-pointer dark:bg-gray-900 rounded-lg shadow-md overflow-hidden hover:shadow-lg  dark:hover:shadow-gray-700 transition-all duration-300 group">
-                            <a wire:navigate href="{{ route('property.show',$property->slug) }}" class="relative ">
-                                @if ($mainImage)
-                                    <img src="{{ Storage::url($mainImage) }}" alt="{{ $property->title }}"
-                                        class="w-full h-52 object-cover transition-transform duration-300 group-hover:scale-105"
-                                        loading="lazy">
-                                @else
-                                    <div
-                                        class="w-full h-52 bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
-                                        <svg class="w-12 h-12 text-gray-300 dark:text-gray-600" fill="none"
-                                            stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                                        </svg>
-                                    </div>
-                                @endif
+                        <div class="bg-white cursor-pointer dark:bg-gray-900 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 group relative">
+    <a wire:navigate href="{{ route('property.show', $property->slug) }}" class="block relative">
+        @if($mainImage)
+            <img src="{{ Storage::url($mainImage) }}" alt="{{ $property->title }}"
+                class="w-full h-52 object-cover transition-transform duration-300 group-hover:scale-105" loading="lazy">
+        @else
+            <div class="w-full h-52 bg-gray-200 dark:bg-gray-800 flex items-center justify-center">
+                <svg class="w-12 h-12 text-gray-300 dark:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+            </div>
+        @endif
 
-                                @if ($property->isFeatured())
-                                    <div class="absolute top-2 left-2">
-                                        <span
-                                            class="bg-yellow-400 text-white px-2 py-1 text-xs font-semibold uppercase rounded-full">Featured</span>
-                                    </div>
-                                @endif
+        {{-- Listing Type Badge --}}
+        <div class="absolute top-3 right-3 z-10">
+            <span class="bg-{{ $property->listing_type->value === 'sale' ? 'emerald' : 'violet' }}-500 text-white px-3 py-1 text-xs font-semibold rounded-full uppercase">
+                {{ ucfirst($property->listing_type->value) }}
+            </span>
+        </div>
 
-                                <div class="absolute top-3 right-3 z-10">
-                                    <span
-                                        class="{{ $property->listing_type->value === 'sale' ? 'bg-emerald-500' : 'bg-violet-500' }} text-white px-3 py-1 text-xs font-semibold rounded-full uppercase">
-                                        {{ $property->listing_type->value }}
-                                    </span>
-                                </div>
-
-
-
-                              
-                            </a>
-
+        {{-- Featured Badge --}}
+        @if($property->isFeatured())
+        <div class="absolute top-3 left-3 z-10">
+            <span class="bg-yellow-400 text-white px-2 py-1 text-xs font-semibold rounded-full uppercase shadow-sm">
+                Featured
+            </span>
+        </div>
+        @endif
+    </a>
                             <div class="p-4">
-                                <a wire:navigate href="{{ route('property.show',$property->slug) }}" class="font-semibold text-base text-gray-900 dark:text-gray-100 mb-1 line-clamp-2">
+                                <a wire:navigate href="{{ route('property.show', $property->slug) }}"
+                                    class="font-semibold text-base text-gray-900 dark:text-gray-100 mb-1 line-clamp-2">
                                     {{ $property->title }}</a>
+
+
+                                    
                                 <p class="text-gray-600 dark:text-gray-400 text-sm mb-2 line-clamp-1">
                                     <svg class="w-4 h-4 inline-block mr-1 text-gray-600 dark:text-gray-400"
                                         fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -248,7 +260,8 @@ $mainImage = $images[0] ?? null;
                                         class="text-lg font-bold text-green-600 dark:text-green-400">{{ $property->formatted_price }}</span>
                                     @if ($property->price_per_sqft)
                                         <span class="text-xs text-gray-500 dark:text-gray-400">
-                                            <span class="mr-1">NPR </span>  {{ number_format($property->price_per_sqft, 0) }}/sqft</span>
+                                            <span class="mr-1">NPR </span>
+                                            {{ number_format($property->price_per_sqft, 0) }}/sqft</span>
                                     @endif
                                 </div>
 
@@ -303,9 +316,10 @@ $mainImage = $images[0] ?? null;
                         {{-- List View --}}
                         <div
                             class="bg-white cursor-pointer dark:bg-gray-900 rounded-lg shadow-md overflow-hidden hover:shadow-lg dark:hover:shadow-gray-700 transition-all duration-300 group md:flex">
-                            <a wire:navigate href="{{ route('property.show',$property->slug) }}" class="md:w-1/3 relative">
+                            <a wire:navigate href="{{ route('property.show', $property->slug) }}"
+                                class="md:w-1/3 relative">
                                 @if ($mainImage)
-                                    <img src="{{ Storage::url($mainImage)}}" alt="{{ $property->title }}"
+                                    <img src="{{ Storage::url($mainImage) }}" alt="{{ $property->title }}"
                                         class="w-full h-48 md:h-full object-cover transition-transform duration-300 group-hover:scale-105"
                                         loading="lazy">
                                 @else
@@ -346,7 +360,7 @@ $mainImage = $images[0] ?? null;
                                     {{ $property->full_address }}
                                 </p>
                                 <p class="text-gray-700 dark:text-gray-300 text-sm mb-3 line-clamp-2">
-                                    {!! Str::limit($property->description,200) !!}</p>
+                                    {!! Str::limit($property->description, 200) !!}</p>
 
                                 @if ($property->bedrooms || $property->bathrooms || $property->total_area)
                                     <div
@@ -413,7 +427,7 @@ $mainImage = $images[0] ?? null;
 
 
             {{-- Pagination --}}
-            <div class="mt-8" wire:ignore>
+            <div class="mt-8" >
                 {{ $properties->links() }}
             </div>
         @else

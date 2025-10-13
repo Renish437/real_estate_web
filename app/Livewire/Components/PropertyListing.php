@@ -20,12 +20,13 @@ class PropertyListing extends Component
     public $listingType ='';
     public $minBedrooms = '';
     public $featuredOnly =false;
+    public $page = 1;
 
     //sorting
     public $sortBy = 'created_at';
     public $sortDirection = 'desc';
     public $viewMode = 'grid';
-    public $page = 1;
+    
 
     protected $paginationTheme = 'tailwind'; // (keep your theme)
 protected $updatesQueryString = true;
@@ -88,7 +89,6 @@ public $preventScroll = true;
    }
    // Computed properties
    
-    #[Computed]
     public function properties()
     {
         return Property::query()
@@ -101,12 +101,10 @@ public $preventScroll = true;
                 });
             })
             ->when($this->type, fn($query) => $query->byType($this->type))
-            ->when(
-                $this->listingType,
-                fn($query) =>
+            ->when($this->listingType, fn($query) =>
                 $this->listingType === 'sale'
-                ? $query->forSale()
-                : $query->forRent()
+                    ? $query->forSale()
+                    : $query->forRent()
             )
             ->when($this->city, fn($query) => $query->inCity($this->city))
             ->when($this->minPrice, fn($query) => $query->where('price', '>=', $this->minPrice))

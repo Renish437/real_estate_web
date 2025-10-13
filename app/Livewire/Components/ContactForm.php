@@ -48,7 +48,7 @@ class ContactForm extends Component
 
             // Example: Send email to property contact or admin
             if ($this->property->contact_email) {
-                Mail::to($this->property->contact_email)->queue(new PropertyEnquiry($enquiry));
+                Mail::to($this->property->contact_email)->send(new PropertyEnquiry($enquiry));
             }
 
             $this->showSuccess = true;

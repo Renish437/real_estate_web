@@ -24,6 +24,13 @@ class PropertyResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'title';
 
+    protected static ?int $navigationSort = 1;
+
+    public static function getNavigationBadge(): ?string
+{
+    return static::getModel()::count();
+}
+
     public static function form(Schema $schema): Schema
     {
         return PropertyForm::configure($schema);

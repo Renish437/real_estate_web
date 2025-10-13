@@ -2,6 +2,12 @@
 
 namespace App\Providers\Filament;
 
+use App\Enums\PropertyStatus;
+use App\Filament\Widgets\ListingTypeChart;
+use App\Filament\Widgets\PropertyGrowthChart;
+use App\Filament\Widgets\PropertyStatusChart;
+use App\Filament\Widgets\PropertyTypeChart;
+use App\Filament\Widgets\StatsOverview;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -12,6 +18,7 @@ use Filament\PanelProvider;
 use Filament\Support\Colors\Color;
 use Filament\Widgets\AccountWidget;
 use Filament\Widgets\FilamentInfoWidget;
+use Filament\Widgets\StatsOverviewWidget;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -29,6 +36,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->registration()
             ->sidebarWidth("17rem")
+            ->spa()
             ->sidebarCollapsibleOnDesktop()
             ->login()
             ->colors([
@@ -45,8 +53,16 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
-                AccountWidget::class,
-                FilamentInfoWidget::class,
+                // AccountWidget::class,
+                // FilamentInfoWidget::class,
+
+                StatsOverview::class,
+                PropertyGrowthChart::class,
+                PropertyStatusChart::class,
+                PropertyTypeChart::class,
+                ListingTypeChart::class
+
+                
             ])
             ->middleware([
                 EncryptCookies::class,

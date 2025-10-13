@@ -18,7 +18,7 @@
                 <div class="flex items-center">
                     <a wire:navigate href="{{ route('properties.index') }}" class="flex items-center space-x-2">
                         <span class="text-2xl">🏠</span>
-                        <span class="text-xl font-bold text-gray-900 dark:text-gray-200">Real Estate App</span>
+                        <span class="text-xl font-bold text-gray-900 dark:text-gray-200">Real Estateify</span>
                     </a>
                 </div>
 
@@ -87,7 +87,7 @@
                 <div class="col-span-1 md:col-span-2">
                     <div class="flex items-center space-x-2 mb-4">
                         <span class="text-2xl">🏠</span>
-                        <span class="text-xl font-bold">Real Estate App</span>
+                        <span class="text-xl font-bold">Real Estateify</span>
                     </div>
                     <p class="text-gray-300 mb-4">
                         Your trusted partner in finding the perfect property in Tanzania.
